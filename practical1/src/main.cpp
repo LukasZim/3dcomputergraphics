@@ -50,6 +50,14 @@ Mesh mesh;
 int myVariableThatServesNoPurpose;
 float xvariable = 0;
 
+float angle_arm = 0.0f;
+float length_arm = 1.0f;
+float angle_forearm = 0.0f;
+float length_forearm = 2.0f;
+
+float angle_hand = 0.0f;
+float length_hand = 2.0f;
+
 ////////// Draw Functions
 
 //function to draw coordinate axes with a certain length (1 as a default)
@@ -133,26 +141,23 @@ void drawUnitFace(const glm::mat4& transformMatrix)
     // glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::degrees(90), glm::vec3(1, 0, 0));
 
 
-    GLfloat matrixf[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, matrixf);
-
-    glm::vec4 vec1 = transformMatrix * glm::vec4( 0 - 0.5,0 - 0.5,0,1 );
-    glm::vec4 vec2 = transformMatrix * glm::vec4{ 1 - 0.5,0 - 0.5,0,1 };
-    glm::vec4 vec3 = transformMatrix * glm::vec4{ 1 - 0.5,1 - 0.5,0,1 };
-    glm::vec4 vec4 = transformMatrix * glm::vec4{ 0 - 0.5,1 - 0.5,0,1 };
-
-    glColor3f(1, 0, 0);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glMultMatrixf(glm::value_ptr(transformMatrix));
     glNormal3f(0, 0, 1);
-    glBegin(GL_QUADS);
+    glColor3f(1, 1, 1);
 
-
-    glColor3f(0, 0, 1);
-    glVertex4f(vec1.x, vec1.y, vec1.z, vec1.w);
-    glVertex4f(vec2.x, vec2.y, vec2.z, vec2.w);
-    glVertex4f(vec3.x, vec3.y, vec3.z, vec3.w);
-    glVertex4f(vec4.x, vec4.y, vec4.z, vec4.w);
+    glBegin(GL_TRIANGLES);
+    glVertex3f(-.5, .5, 0);
+    glVertex3f(-.5, -.5, 0);
+    glVertex3f(.5, .5, 0);
+    glVertex3f(-.5, -.5, 0);
+    glVertex3f(.5, -.5, 0);
+    glVertex3f(.5, .5, 0);
 
     glEnd();
+    glPopMatrix();
+    glFlush();
  }
 
 void drawUnitCube(const glm::mat4& transformMatrix)
@@ -162,32 +167,28 @@ void drawUnitCube(const glm::mat4& transformMatrix)
     //   passed to drawUnitFace.
     //2) Transform your cube by the given transformation matrix.
 
-    glm::mat4 identity = transformMatrix;
+    glPushMatrix();
+    glMultMatrixf(glm::value_ptr(transformMatrix));
 
+    // draw first face
+    drawUnitFace(glm::translate(glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(0, 1, 0)), glm::vec3(0, 0, .5)));
 
-    // front side
-    glm::mat4 matrixfront = glm::translate(identity, glm::vec3(0, 0, 0.5));
-    drawUnitFace(matrixfront);
+    // second face
+    drawUnitFace(glm::translate(glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0, 1, 0)), glm::vec3(0, 0, .5)));
 
-    // left side
-    glm::mat4 matrixleft = glm::translate(glm::rotate(identity, glm::radians(-90.0f), glm::vec3(0, 1, 0)), glm::vec3(0, 0, 0.5));
-    drawUnitFace(matrixleft);
+    // third face
+    drawUnitFace(glm::translate(glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(0, 1, 0)), glm::vec3(0, 0, .5)));
 
-    // right side
-    glm::mat4 matrixright = glm::translate(glm::rotate(identity, glm::radians(90.0f), glm::vec3(0, 1, 0)), glm::vec3(0, 0, 0.5));
-    drawUnitFace(matrixright);
+    // fourth face
+    drawUnitFace(glm::translate(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(0, 1, 0)), glm::vec3(0, 0, .5)));
 
-    // back side
-    glm::mat4 matrixback = glm::translate(glm::rotate(identity, glm::radians(180.0f), glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0.5));
-    drawUnitFace(matrixback);
+    // fifth face
+    drawUnitFace(glm::translate(glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1, 0, 0)), glm::vec3(0, 0, .5)));
 
-    // top
-    glm::mat4 matrixtop = glm::translate(glm::rotate(identity, glm::radians(-90.0f), glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0.5));
-    drawUnitFace(matrixtop);
+    // sixth face
+    drawUnitFace(glm::translate(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1, 0, 0)), glm::vec3(0, 0, .5)));
 
-    // bottom
-    glm::mat4 matrixbottom = glm::translate(glm::rotate(identity, glm::radians(90.0f), glm::vec3(1, 0, 0)), glm::vec3(0, 0, 0.5));
-    drawUnitFace(matrixbottom);
+    glPopMatrix();
 }
 
 void drawArm()
@@ -203,6 +204,43 @@ void drawArm()
 
     //3 Optional) make an animated snake out of these boxes
     //(an arm with 10 joints that moves using the animate function)
+
+
+    glm::mat4 test = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+    glm::mat4 test2 = glm::scale(glm::rotate(test, glm::radians(angle_arm), glm::vec3(0, 0, 1)), glm::vec3(length_arm,1,1));
+    glm::mat4 offset = glm::translate(test2, glm::vec3(0.5, 0, 0));
+    glColor3f(1, 0, 0);
+    drawUnitCube(offset);
+    glm::mat4 lowerarmOffset = glm::translate(glm::rotate(test, glm::radians(angle_arm), glm::vec3(0,0,1)), glm::vec3(length_arm, 0, 0));
+    glm::mat4 lowerarm1 = glm::scale(glm::rotate(lowerarmOffset, glm::radians(angle_forearm), glm::vec3(0, 0, 1)), glm::vec3(length_forearm, 1, 1));
+    glm::mat4 lowerarm2 = glm::translate(lowerarm1, glm::vec3(0.5, 0, 0));
+    glColor3f(0, 0, 1);
+    drawUnitCube(lowerarm2);
+
+
+    //glm::mat4 offset = glm::scale(glm::translate(glm::rotate(glm::translate(glm::mat4(1.0f), glm::vec3(0.5 , 0, 0)), glm::radians(angle_arm), glm::vec3(0,0,1)), glm::vec3(-1, 0, 0)), glm::vec3(length_arm,1,1));
+    //drawUnitCube(offset);
+
+    glm::mat4 offset2 = 
+        glm::translate(
+            glm::rotate(
+                glm::translate(
+                    glm::rotate(
+                        glm::translate(
+                            glm::mat4(1.0f), 
+                            glm::vec3(0.5, 0, 0)
+                        ), 
+                        glm::radians(angle_forearm), 
+                        glm::vec3(0,0,1)
+                    ), 
+                    glm::vec3(-0.5, 0, 0)
+                ), 
+                glm::radians(angle_arm),
+                glm::vec3(0, 0, 1)
+            ), 
+            glm::vec3(length_arm, 0, 0)
+        );
+    //drawUnitCube(offset2);
 
 }
 
@@ -220,6 +258,13 @@ void drawLight()
 
     //4) OPTIONAL
     //   Draw a sphere (consisting of triangles) instead of a cube.
+    bool light = glIsEnabled(GL_LIGHTING);
+    glDisable(GL_LIGHTING);
+    glColor3f(1, 1, 0);
+    drawUnitCube(glm::scale(glm::translate(glm::mat4(1), glm::vec3(lightPos)), glm::vec3(0.2)));
+
+    if(light)
+        glEnable(GL_LIGHTING);
 
 }
 
@@ -237,7 +282,6 @@ void drawMesh()
     //   What do you observe with respect to the lighting?
 
     //4) Try loading your own model (export it from Blender as a Wavefront obj) and replace the provided mesh file.
-
 }
 
 void display()
@@ -258,7 +302,8 @@ void display()
         // ...
     case DisplayModeType::CUBE:
         drawCoordSystem();
-        drawUnitCube(glm::rotate(glm::mat4(1.0f), glm::radians(60.0f), glm::vec3(1,2,3))); // mat4(1.0f) = identity matrix
+        glColor3f(0, 1, 0);
+        drawUnitCube(glm::mat4(1.0f)); // mat4(1.0f) = identity matrix
         break;
     case DisplayModeType::ARM:
         drawCoordSystem();
@@ -312,13 +357,48 @@ void keyboard(int key, int /* scancode */, int /* action */, int /* mods */)
         pWindow->close();
         break;
     }
+    case GLFW_KEY_Q: {
+        angle_arm += 1;
+        break;
+    }
+    case GLFW_KEY_A: {
+        angle_arm -= 1;
+        break;
+    }
+    case GLFW_KEY_W: {
+        angle_forearm += 1;
+        break;
+    }
+    case GLFW_KEY_S: {
+        angle_forearm -= 1;
+        break;
+    }
+    case GLFW_KEY_E: {
+        angle_hand += 1;
+        break;
+    }
+    case GLFW_KEY_D: {
+        angle_hand -= 1;
+        break;
+    }
+    case GLFW_KEY_Z: {
+        length_arm -= 0.1f;
+        break;
+    }
+    case GLFW_KEY_X: {
+        length_arm += 0.1f;
+        break;
+    }
     case GLFW_KEY_L: {
         // Turn lighting on.
-        if (pWindow->isKeyPressed(GLFW_KEY_LEFT_SHIFT) || pWindow->isKeyPressed(GLFW_KEY_RIGHT_SHIFT))
+        if (pWindow->isKeyPressed(GLFW_KEY_LEFT_SHIFT) || pWindow->isKeyPressed(GLFW_KEY_RIGHT_SHIFT)) {
             glEnable(GL_LIGHTING);
-        else
+            std::cout << "enabled" << "\n";
+        }
+        else {
             glDisable(GL_LIGHTING);
-
+            std::cout << "disabled" << "\n";
+        }
         break;
     }
     };
