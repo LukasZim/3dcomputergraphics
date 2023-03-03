@@ -323,6 +323,19 @@ void drawLight()
 
 }
 
+void drawTriangleFromMesh(Mesh mesh, int index) {
+	auto triangle = mesh.triangles[index];
+	auto p1 = mesh.vertices[triangle.x];
+	auto p2 = mesh.vertices[triangle.y];
+	auto p3 = mesh.vertices[triangle.z];
+	glm::vec3 normal = glm::normalize(p1.normal + p2.normal + p3.normal);
+	glColor3f(1, 0, 0);
+	glNormal3f(normal.x, normal.y, normal.z);
+	glVertex3f(p1.position.x, p1.position.y, p1.position.z);
+	glVertex3f(p2.position.x, p2.position.y, p2.position.z);
+	glVertex3f(p3.position.x, p3.position.y, p3.position.z);
+}
+
 void drawMesh()
 {
 	//1) Use the mesh data structure;
@@ -337,6 +350,23 @@ void drawMesh()
 	//   What do you observe with respect to the lighting?
 
 	//4) Try loading your own model (export it from Blender as a Wavefront obj) and replace the provided mesh file.
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < mesh.triangles.size(); i++) {
+
+		
+		//drawTriangleFromMesh(mesh, i);
+		auto triangle = mesh.triangles[i];
+		auto p1 = mesh.vertices[triangle.x];
+		auto p2 = mesh.vertices[triangle.y];
+		auto p3 = mesh.vertices[triangle.z];
+		glm::vec3 normal = glm::normalize(p1.normal + p2.normal + p3.normal);
+		glColor3f(1, 0, 0);
+		glNormal3f(normal.x, normal.y, normal.z);
+		glVertex3f(p1.position.x, p1.position.y, p1.position.z);
+		glVertex3f(p2.position.x, p2.position.y, p2.position.z);
+		glVertex3f(p3.position.x, p3.position.y, p3.position.z);
+	}
+	glEnd();
 }
 
 void display()
