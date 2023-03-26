@@ -1,0 +1,26 @@
+# 
+# Wavefront material file
+# Converted by the DEEP Exploration  3.5.10.1242
+# Right Hemisphere, LTD
+# http://www.righthemisphere.com/
+# 
+
+newmtl rust2
+Ka 0.501961 0.501961 0.501961
+Kd 0.807843 0.721569 0.435294
+Ks 1 1 1
+illum 2
+Ns 2
+map_Kd metalpla.jpg
+map_bump metaltex.jpg
+bump metaltex.jpg
+
+newmtl wood1
+Ka 0.501961 0.501961 0.501961
+Kd 0.529412 0.392157 0.180392
+Ks 1 1 1
+illum 2
+Ns 2
+map_Kd wood4.jpg
+map_bump wood4bm.jpg
+bump wood4bm.jpg

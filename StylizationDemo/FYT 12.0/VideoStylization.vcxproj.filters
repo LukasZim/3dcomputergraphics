@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="DXUT">
+      <UniqueIdentifier>{fc8ef1fe-599f-48fc-b764-6ed5be585c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{823789c8-ec09-43da-bcc6-945179963788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{225e24ce-8748-4e02-89c1-fa908d0a0da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{a64a6a66-8a9c-46dd-beb9-6b175b99d001}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DXUT\DXUT.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\DXUTcamera.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\DXUTenum.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\DXUTgui.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\DXUTmisc.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\DXUTres.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\DXUTsettingsdlg.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\SDKmesh.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUT\SDKmisc.cpp">
+      <Filter>DXUT</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\AnimatedMesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Callback.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Camera.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\definition.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\InputLayout.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\MeshLoader10.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\ObjMesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Renderer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderImageVideo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderModelWithImage.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderModelWithVideo.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderSceneMesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\RenderSkinnedMesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Shaders.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\StaticMesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Style.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Stylization.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\TextureRT.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\UserInterface.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Video.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Viewer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DXUT\DXUT.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\DXUTcamera.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\DXUTenum.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\DXUTgui.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\DXUTmisc.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\DXUTres.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\DXUTsettingsdlg.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\SDKmesh.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUT\SDKmisc.h">
+      <Filter>DXUT</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\AnimatedMesh.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Callback.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Camera.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\definition.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\InputLayout.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\MeshLoader10.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\ObjMesh.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Renderer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Shaders.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\StaticMesh.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Stroke.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Style.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Stylization.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\TextureRT.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\UserInterface.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Video.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Viewer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Code\AnimatedModel.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Code\Images.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Code\ObjModel.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Code\StaticModel.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Code\Common.fxh">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="VideoStylization.manifest" />
+  </ItemGroup>
+</Project>

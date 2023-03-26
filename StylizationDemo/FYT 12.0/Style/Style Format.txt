@@ -1,0 +1,25 @@
+1. Stroke Texture Index
+2. Alpha Texture Index
+3. contrast :
+4. Stroke Length :
+5. Stroke Width
+6. Probability(Large)
+7. Probability(Medium)
+8. Probability(Small)
+9. GradientThreshold1
+10.GradientThreshold2
+11.Alpha(Large)
+12.Alpha(Medium)
+13.Alpha(Small)
+14.Relative Size(Medium)
+15.Relative Size(Small)
+16.Gradient Threshold
+17. Camera Position
+18. Look At Point
+19. Fade In Speed
+20. Fade Out Speed
+21. focus (f)
+22. focus (r1)
+23. focus (r2)
+24. Clipping or not?
+25. Use Red for orientation or not?

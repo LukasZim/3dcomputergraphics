@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Real-Time Stroke-based Stylization of Image, Video, 3D Models</TITLE>
+<META http-equiv=Content-Language content=en-us>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="Microsoft FrontPage 5.0" name=GENERATOR>
+</HEAD>
+<BODY>
+<table width = 80% align = "center">
+<tr>
+<td>
+<h3>Real-Time Stroke-based Stylization of Image, Video, 3D Models</h3>
+Jingwan Lu (jingwanl@princeton.edu), Pedro Sander, Adam Finkelstein
+
+<h4><u>Introduction</u></h4>
+<p>
+This program takes image, video or 3D model (or any combination of them) as input and produces stylized rendering in real-time on high-end commercial graphics card. The program allows user to control the rendering style by adjusting a set of parameters.</p>
+
+<p>
+In order to run the executable, you need to have the following hardware, operating system and software available.
+<ul>
+<li>NVIDIA Graphics Card (for example GeForce 8800)
+<li>Windows Vista (The earlier version of window does not support DirectX10)
+<li>Microsoft DirectX SDK( November 2007 or 2008 are guaranteed to work. The others are not tested )
+<br>Make sure the environment variable DXSDK_DIR is set correctly to something like <i>C:\Program Files\Microsoft DirectX SDK (November 2008)</i>
+</ul>
+</p>
+
+<p>
+The program is developed using C++ and DirectX10. The source codes are provided with Visual Studio 2008 project files.
+</p>
+
+<h4><u>File Structures</u></h4>
+<p>
+The input of the program can contain three different formats. 
+<ul>
+<li>Image : The input images should be put into the folder <i>Image\</i>
+<li>Video : The input videos should come as successive frames in jpg format (000000.jpg) and be put into the folder <i>Video\[VideoName]\</i>
+<br>
+
+You can decompose a video into images using MPlayer to execute a simple avs script.
+<p>
+For example, the avs script may look like this : <br>
+<i>
+DirectShowSource("c:\Butterfly.wmv", fps=15).ConvertToRGB24 <br>
+ImageWriter("C:\ButterFly\",0,0,"jpg") </i>
+</p>
+
+
+<li>Model : The input model meshes (sdkmesh, obj) together with textures (dds, jpg) and animation (sdkmesh_anim) should be put into the folder <i>Model\[ModelName]\</i><br>
+
+<p>
+The program currently supports the sdkmesh models (windows specific). You can convert other types of model to .x format using softwares like Maya. Then you can use windows tool to convert .x to .sdkmesh. This type of model may also come with an animation sequence defined in file .sdkmesh_anim. For sdkmesh, the program supports rendering of both static and animated model. The rendering of static scene expects several .sdkmesh models, sky and objects. The rendering of animated model expects a .sdkmesh model and a .sdkmesh_anim (specify animation sequence)</p>
+
+<p>
+The program also supports textured obj models. The program expects a .obj file, a .mtl file (specify material) and some textures if any. The obj loader is not robust. It only supports diffuse, specular and ambient lighting. The use of bump mapping, reflection mapping and texture atlas (specified in .mtl) is not supported.</p>
+</ul>
+</p>
+
+<p>The particular look of individual brush strokes is defined by two types of textures.
+<ul>
+<li>Surface Texture : The textures that define the stroke surface details should be put into the folder <i>StrokeTex\</i>
+<li>Shape Texture : The textures that define the 2D shape of the stroke should be put into the folder <i>AlpMask\</i>
+</ul>
+</p>
+
+<p>The screenshots taken when running the program are saved to the folder <i>ScreenShot/Original/</i> and <i>ScreenShot/Rendering/</i>. </p>
+
+<p>The rendering style files (txt format) should be put into the folder <i>Style\</i>. The <i>Style Format.txt</i> describe the contents of the style files (save and load from the program). The other style files are associated with different input and will be preloaded into the program when rendering.</p> 
+
+<h4><u>UI and Features</u></h4>
+
+The program starts with no UI showing in the window. <br><br>
+Pressing <b>space key</b> gives the main menu and the help text.
+The UI are separated into two menus : <i>Stroke Properties</i> and <i>Shared Selection</i>. <i>Stroke properties</i> controls the stroke textures, stroke size, probability, alpha etc. The rest of the controls shared by different rendering session (image, video, model etc) are put into <i>Shared Selection</i>
+
+<h4><i>Help Text</i></h4>
+<ul>
+<li>Frame Per Second
+<li>Rendering Session
+	<br><i>Image<br>Video<br>Static Model (Optical Flow)</i> : render the scene using 'perfect' optical flow
+	<br><i>Static Model</i> : render the static scene frame by frame, construct new strokes for every frame
+	<br><i>Animated Model</i> : models(sdkmesh) with animation sequence(sdkmesh_anim)
+	<br><i>Model On Image</i> : animated model rendered on top of still image
+	<br><i>Model On Video</i> : animated model rendered on top of video frames
+	<br><i>Obj Model</i> : render the static obj model using 'perfect' optical flow
+<li>Total Brush Stroke Count : the total number of strokes in all layers
+<li>Stroke count break down for three layers : S (small strokes), M (median strokes), L (large strokes)
+	<br><i>Pre</i> : the number of strokes in the layer in the previous frame
+	<br><i>Cur</i> : the number of strokes in the layer in the current frame
+	<br><i>Append</i> : the number of strokes get appended in append step
+	<br><i>Delete</i> : the number of strokes (negative) get deleted in update and delete step
+	<br><i>Cur = Pre + Append + Delete</i>
+<li><i>Animation Paused</i> : when the animation for the animated model is paused by user
+<li><i>Video is loaded</i> : when the video frames are selected and loaded onto the graphics card
+<li><i>Camera position</i> : where the camera is in 3D
+<li><i>lookat position</i> : where the camera is pointed to in 3D
+</ul>
+
+
+
+<h4><i>Mouse Interaction</i></h4>
+The change of camera and lookat position is only enabled for model related rendering.
+	<ul>
+	<li>Right Mouse Button : rotate the camera around the model , change the camera position
+	<li>Middle Mouse Button : pan the camera
+	<li>Middle Mouse Wheel : zoom in/out the camera
+	<li>Left Mouse Button : 
+		<ul>
+		<li>check <i>Change LookAt Pos</i> : change look at position 
+		<li>check <i>Enable Focus</i> : change focus point position
+		<li>default : do nothing
+		</ul>
+	</ul>
+
+<h4><i>In Stroke Properties</i></h4>
+<ul>
+<li><i>Use Red for Orientation</i> : use red color chanel or hue as stroke orientation
+<li><i>Clip Strokes at edges</i> : apply stroke clipping or not
+<li><i>Stroke Texture</i> : give different surface detail
+<li><i>Alpha Texture</i> : crop the stroke into different shape
+<li><i>Gradient Threshold</i> : The strokes with gradient magnitude larger than this threshold will be drawn
+<li><i>Gradient Threshold 1</i> : separate the coarse and median level
+<li><i>Gradient Threshold 2</i> : separate the median and fine level, should be larger than <i>Gradient Threshold 1</i>
+<li><i>Stroke Length, Stroke Width</i> : specify the size for coarse level stroke
+<li><i>Relative Size</i> : specify the ratios with the size of coarse level strokes
+The rest explain themselves
+</ul>
+
+<h4><i>In Shared Selection</i></h4>
+<ul>
+<li>Style
+	<ul>
+	<li><i>Load Style</i> : open a file dialog to load a specific style file (.txt) which includes most of the parameter values
+	<li><i>Save Style</i> : save all the parameter values to a specific .txt file
+	</ul>
+
+<li>Screen Capture
+<p>
+There are three types of screen capture. The rendering results are saved into \ScreenShot\Rendering as bmp file (for example 0.bmp). The rendering of original input are saved into \ScreenShot\Original. The name of the output file increments from 0. Once the rogram starts running, it will keep incrementing. 
+	<ul>
+	<li><i>Image Capture</i> : does single frame capture.
+	<li><i>Clip Capture</i> : capture the result of continuous camera movement or mesh animation
+	<li><i>Shot</i> : used to capture rendered video frames, check it to start and uncheck it to stop
+	<li><i>Reset Index</i> : reset the output file name to start from 0 again
+	</ul>
+</p>
+
+<li>Input Selection
+<p>
+There are five types of input for stylization which are image, video, static model, animated model and Obj model. All the inputs are loaded in run time when you select a specific one from the dropdown list, except video. For video, you need to check "Load Video" to load the frames, which will take several seconds. Obj model may also take several seconds to load depending on the complexity of the geometry. Different types of input are loaded together with different default styles (imageStyle.txt, videoStyle.txt, sodierStyle.txt etc). You can load other style file for rendering or interactively change the parameters. Camera position and lookat position are also adjusted for different input.
+
+	<ul>
+	<li><i>Input Image</i> 
+	<li><i>Input Video</i> 
+	<li><i>Input Animated Model</i>
+	<li><i>Input Static Model</i>
+	<li><i>Input Obj Model</i>
+	<li><i>Load Video</i> : Load the selected video frames
+	</ul>
+</p>
+
+<li>Rendering
+<p>You need to select different rendering session from the dropdown list in order to switch from rendering one type of input to another type. You can also select different rendering stage to check out the intermediate results.
+
+	<ul>
+	<li><i>session</i> : After changing the rendering session, the runtime change of parameters for the previous rendering ession will be lost. The rendering of new type of input comes with predefined parameters.<br>
+	<i>Image</i><br>
+	<i>Video</i><br>
+	<i>Static Model (optical flow)</i><br>
+	<i>Static Model</i><br>
+	<i>Animated Model</i><br>
+	<i>Model on Image</i><br>
+	<i>Model on Video</i><br>
+	<i>Obj Model</i>
+	<li><i>Rendering Stage</i> : render intermediate results such as <br>
+	 	<i>Original</i> : original input image<br>
+		<i>Blurred</i> : blured input image <br>
+		<i>Gradient</i> : gradient image<br>
+		<i>Stroke Position</i> : stocastically determined stroke position<br>
+		<i>Delete Position</i> : the program probablistically delete strokes from the red area<br>
+		<i>Append Position</i> : the program probablistically append strokes into the red area<br>
+		<i>Final Rendering</i> : render result
+		<i>Inter Rendering Result</i> : not used
+	
+	</ul>
+</p>
+
+<li>Focus
+<p>In order to attract attention to some specific area, we allow user to specify a focus point. The gradients are attentuated gradually around the point. The r1 specifies the radius of a smaller circle and r2 specifies the radius of a larger circle. Within the smaller circle, the gradients are not attentuated at all. Between the smaller circle and the larger circle, the degree of attenuation changes smoothly. Outside the larger circle, the gradients are attentuated by a constant scale f. The image is in nowhere attenuated when f is 1. When r1 is larger than r2, the program produce opposite effect.</p> 
+	<ul>
+	<li><i>Enable Focus</i> : Enable the left mouse button to specify the focus point position in the image space
+	<li><i>Focus (f)</i> : f from 0 to 1	
+	<li><i>Focus (r1)</i> : r1 from 0 to 1
+	<li><i>Focus (r2)</i> : r2 from 0 to 1
+	</ul>
+
+<li>Others
+	<ul>
+	<li><i>Optical Flow</i> : Render the optical Flow orientations (triangle with the tip pointing to the positive direction) for some sample points. <i>Probability (Medium)</i> change the number of sample points
+	<li><i>Num Frame</i> : The number of video frames to load onto the graphics card. For example, 50 means the program will load 50 frames to GPU as textures.
+	<li><i>Fade In Speed </i> : The speed the new strokes get faded in.
+	<li><i>Fade Out Speed </i> : The speed the old strokes get faded out.
+	<li><i>Start</i> : Start playing the video
+	<li><i>Stop</i> : Stop playing the video
+	</ul>
+
+</ul>
+
+<h4><u>Known Bugs</u></h4>
+<ul>
+<li>The window is not scalable. Drag to change the window size may crash the program
+<li>The input image always gets washed out. The rendering of the original input image is different from how it actually looks. 
+<li>When you close the program, a dialog will show up saying "The Direct3D device has a non-zero reference count, meaning some objects were not released". This doesn't really hurt the program. Press "Ok" and ignore it.
+<li>The precision of video optical flow is very low.
+</ul>
+
+<h4><u>Limitations</u></h4>
+<ul>
+<li>High frequency strokes introduce more temporal noises. Moving images work better with small number of high frequency strokes
+<li>The stroke clipping tends to clip more than it should, which leaves some blank areas near the edges 
+<li>The program does not allow user to select an arbitrary input. The simplest way to load a new image without changing the code is to change the image name to be an existing image's name
+<li>The program works the best with high-end NVIDIA graphics card. Real-time performance is not guaranteed on ATI card or low-end NVIDIA card
+<li>The rendering algorithm is not very scalable with the resolution. The performance drops down fast as the resolution increases.
+<li>The program currently doesn't allow the composition of image (video frame) and static models
+</ul>
+
+</td>
+</tr>
+</BODY></HTML>
